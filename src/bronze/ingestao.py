@@ -3,6 +3,11 @@
 import delta
 import json
 from pyspark.sql import types
+import sys
+
+sys.path.insert(0, "../lib/")
+
+
 from utils import table_exists, import_schema
 
 
