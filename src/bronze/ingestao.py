@@ -1,8 +1,4 @@
 # Databricks notebook source
-dbutils.library.restartPython()
-
-# COMMAND ----------
-
 # DBTITLE 1,Imports
 import delta
 import json
