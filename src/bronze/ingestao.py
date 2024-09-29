@@ -19,13 +19,13 @@ from ingestors import Ingestor, IngestorCDC
 schema_name = 'olist'
 catalog = 'bronze'
 
-table_name = dbutils.widgets.get('table_name')
-id_column =  dbutils.widgets.get('id_column')
-timestamp_column =  dbutils.widgets.get('timestamp_column')
+# table_name = dbutils.widgets.get('table_name')
+# id_column =  dbutils.widgets.get('id_column')
+# timestamp_column =  dbutils.widgets.get('timestamp_column')
 
-# table_name = 'order_items'
-# id_column = 'order_id, order_item_id'
-# timestamp_column = 'modified_at'
+table_name = 'products'
+id_column = 'product_id'
+timestamp_column = 'modified_at'
 
 cdc_path = f"/Volumes/raw/{schema_name}/cdc/{table_name}/"
 full_load_path = f"/Volumes/raw/{schema_name}/full/{table_name}/"
