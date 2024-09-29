@@ -32,6 +32,50 @@
             "webhook_notifications": {}
           },
           {
+            "task_key": "bronze_customers",
+            "run_if": "ALL_SUCCESS",
+            "notebook_task": {
+              "notebook_path": "src/bronze/ingestao",
+              "base_parameters": {
+                "table_name": "customers",
+                "id_column": "customer_id",
+                "timestamp_column": "modified_at"
+              },
+              "source": "GIT"
+            },
+            "existing_cluster_id": "0912-184101-jtird7p1",
+            "timeout_seconds": 0,
+            "email_notifications": {},
+            "notification_settings": {
+              "no_alert_for_skipped_runs": false,
+              "no_alert_for_canceled_runs": false,
+              "alert_on_last_attempt": false
+            },
+            "webhook_notifications": {}
+          },
+          {
+            "task_key": "bronze_products",
+            "run_if": "ALL_SUCCESS",
+            "notebook_task": {
+              "notebook_path": "src/bronze/ingestao",
+              "base_parameters": {
+                "table_name": "products",
+                "id_column": "product_id",
+                "timestamp_column": "modified_at"
+              },
+              "source": "GIT"
+            },
+            "existing_cluster_id": "0912-184101-jtird7p1",
+            "timeout_seconds": 0,
+            "email_notifications": {},
+            "notification_settings": {
+              "no_alert_for_skipped_runs": false,
+              "no_alert_for_canceled_runs": false,
+              "alert_on_last_attempt": false
+            },
+            "webhook_notifications": {}
+          },
+          {
             "task_key": "bronze_order_payments",
             "run_if": "ALL_SUCCESS",
             "notebook_task": {
@@ -131,6 +175,48 @@
                 "table_name": "pagamento_pedido",
                 "id_field": "idPedido",
                 "id_field_from": "order_id" 
+              },
+              "source": "GIT"
+            },
+            "existing_cluster_id": "0912-184101-jtird7p1",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+          },
+          {
+            "task_key": "silver_clientes",
+            "depends_on": [
+              {
+                "task_key": "bronze_customers"
+              }
+            ],
+            "run_if": "ALL_SUCCESS",
+            "notebook_task": {
+              "notebook_path": "src/silver/ingestao",
+              "base_parameters": {
+                "table_name": "clientes",
+                "id_field": "idCliente",
+                "id_field_from": "customer_id" 
+              },
+              "source": "GIT"
+            },
+            "existing_cluster_id": "0912-184101-jtird7p1",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+          },
+          {
+            "task_key": "silver_produtos",
+            "depends_on": [
+              {
+                "task_key": "bronze_products"
+              }
+            ],
+            "run_if": "ALL_SUCCESS",
+            "notebook_task": {
+              "notebook_path": "src/silver/ingestao",
+              "base_parameters": {
+                "table_name": "produtos",
+                "id_field": "idProduto",
+                "id_field_from": "product_id" 
               },
               "source": "GIT"
             },
