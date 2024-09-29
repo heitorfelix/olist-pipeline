@@ -1,5 +1,6 @@
 # Databricks notebook source
 # DBTITLE 1,Imports
+
 import delta
 import json
 from pyspark.sql import types
@@ -22,8 +23,8 @@ table_name = dbutils.widgets.get('table_name')
 id_column =  dbutils.widgets.get('id_column')
 timestamp_column =  dbutils.widgets.get('timestamp_column')
 
-# table_name = 'orders'
-# id_column = 'order_id'
+# table_name = 'order_items'
+# id_column = 'order_id, order_item_id'
 # timestamp_column = 'modified_at'
 
 cdc_path = f"/Volumes/raw/{schema_name}/cdc/{table_name}/"
@@ -35,7 +36,7 @@ schema = import_schema(table_name=table_name)
 
 # COMMAND ----------
 
-# DBTITLE 1,Full load class
+# DBTITLE 1,Full load
 if table_exists(spark, catalog, schema_name, table_name):
         print(f'Tabela {table_name} já existe. Pulando carga Full.')
 
@@ -54,7 +55,7 @@ else:
 
 # COMMAND ----------
 
-# DBTITLE 1,CDC class
+# DBTITLE 1,CDC Stream
 ingestor = IngestorCDC(spark
                         , catalog = catalog
                         , schema_name = schema_name

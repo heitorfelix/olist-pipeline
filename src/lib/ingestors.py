@@ -1,5 +1,5 @@
 import delta
-from utils import import_schema
+from utils import import_schema, create_merge_condition
 
 
 class Ingestor:
@@ -55,11 +55,13 @@ class IngestorCDC(Ingestor):
             QUALIFY ROW_NUMBER() OVER (PARTITION BY {self.id_field} ORDER BY {self.timestamp_field} DESC) = 1
         '''
 
+        merge_condition = create_merge_condition(id_field = self.id_field)
+
         df_cdc = self.spark.sql(query)
 
         (self.deltatable
              .alias("b")
-             .merge(df_cdc.alias("d"), f"b.{self.id_field} = d.{self.id_field}") 
+             .merge(df_cdc.alias("d"), merge_condition) 
              .whenMatchedDelete(condition = "d.OP = 'D'")
              .whenMatchedUpdateAll(condition = "d.OP = 'U'")
              .whenNotMatchedInsertAll(condition = "d.OP = 'I' OR d.OP = 'U'")
