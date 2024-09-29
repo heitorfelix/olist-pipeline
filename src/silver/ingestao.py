@@ -10,13 +10,13 @@ from ingestors import IngestorCDF
 schema_name = 'olist'
 catalog = 'silver'
 
-# table_name = dbutils.widgets.get('table_name')
-# id_field = dbutils.widgets.get("id_field")
-# id_field_from = dbutils.widgets.get("id_field_from")
+table_name = dbutils.widgets.get('table_name')
+id_field = dbutils.widgets.get("id_field")
+id_field_from = dbutils.widgets.get("id_field_from")
 
-table_name = 'clientes'
-id_field = 'idCliente' 
-id_field_from = 'customer_id'
+# table_name = 'clientes'
+# id_field = 'idCliente' 
+# id_field_from = 'customer_id'
 
 remove_checkpoint = False
 
