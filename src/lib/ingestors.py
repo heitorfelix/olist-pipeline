@@ -1,5 +1,5 @@
 import delta
-from utils import import_schema, create_merge_condition
+from utils import import_schema, create_merge_condition, import_query, extract_from, format_query_cdf
 
 
 class Ingestor:
@@ -55,7 +55,7 @@ class IngestorCDC(Ingestor):
             QUALIFY ROW_NUMBER() OVER (PARTITION BY {self.id_field} ORDER BY {self.timestamp_field} DESC) = 1
         '''
 
-        merge_condition = create_merge_condition(id_field = self.id_field)
+        merge_condition = create_merge_condition(id_field = self.id_field, left_alias ='b', right_alias = 'd')
 
         df_cdc = self.spark.sql(query)
 
@@ -82,4 +82,70 @@ class IngestorCDC(Ingestor):
                    .foreachBatch(lambda df, batchID: self.upsert(df))
                    .trigger(availableNow=True))
         return stream.start()
+    
+
+class IngestorCDF(IngestorCDC):
+
+    def __init__(self, spark, catalog, schema_name, table_name, id_field, id_field_from):
+        
+        super().__init__(spark=spark,
+                         catalog=catalog,
+                         schema_name=schema_name,
+                         table_name=table_name,
+                         data_format='delta',
+                         id_field=id_field,
+                         timestamp_field='_commit_timestamp')
+        
+        self.id_field_from = id_field_from
+        self.set_query()
+        self.checkpoint_location = f"/Volumes/raw/{schema_name}/cdc/{catalog}_{table_name}_checkpoint/"
+
+    def set_schema(self):
+        return
+
+    def set_query(self):
+        query = import_query(self.table_name)
+        self.from_table = extract_from(query=query)
+        self.original_query = query
+        self.query = format_query_cdf(query, "{df}")
+
+    def load(self):
+        df = (self.spark.readStream
+                   .format('delta')
+                   .option("readChangeFeed", "true")
+                   .table(self.from_table))
+        return df
+    
+    def save(self, df):
+        stream = (df.writeStream
+                    .option("checkpointLocation", self.checkpoint_location)
+                    .foreachBatch(lambda df, batchID: self.upsert(df) )
+                    .trigger(availableNow=True))
+        return stream.start()
+    
+    def upsert(self, df):
+        df.createOrReplaceGlobalTempView(f"silver_{self.table_name}")
+
+        query_last = f"""
+        SELECT *
+        FROM global_temp.silver_{self.table_name}
+        WHERE _change_type <> 'update_preimage'
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY {self.id_field_from} ORDER BY _commit_timestamp DESC) = 1
+        """
+        df_last = self.spark.sql(query_last)
+        df_upsert = self.spark.sql(self.query, df=df_last)
+
+        merge_condition = create_merge_condition(id_field = self.id_field, left_alias ='s', right_alias = 'd')
+
+        (self.deltatable
+             .alias("s")
+             .merge(df_upsert.alias("d"), merge_condition) 
+             .whenMatchedDelete(condition = "d._change_type = 'delete'")
+             .whenMatchedUpdateAll(condition = "d._change_type = 'update_postimage'")
+             .whenNotMatchedInsertAll(condition = "d._change_type = 'insert' OR d._change_type = 'update_postimage'")
+               .execute())
+
+    def execute(self):
+        df = self.load()
+        return self.save(df)
     
