@@ -86,7 +86,9 @@
             "notebook_task": {
               "notebook_path": "src/silver/ingestao",
               "base_parameters": {
-                "table_name": "pedidos"
+                "table_name": "pedidos",
+                "id_field": "idPedido",
+                "id_field_from": "order_id" 
               },
               "source": "GIT"
             },
@@ -105,7 +107,9 @@
             "notebook_task": {
               "notebook_path": "src/silver/ingestao",
               "base_parameters": {
-                "table_name": "itens_pedido"
+                "table_name": "itens_pedido",
+                "id_field": "idPedido, nrItemPedido",
+                "id_field_from": "order_id, order_item_id" 
               },
               "source": "GIT"
             },
@@ -124,7 +128,9 @@
             "notebook_task": {
               "notebook_path": "src/silver/ingestao",
               "base_parameters": {
-                "table_name": "pagamento_pedido"
+                "table_name": "pagamento_pedido",
+                "id_field": "idPedido",
+                "id_field_from": "order_id" 
               },
               "source": "GIT"
             },
