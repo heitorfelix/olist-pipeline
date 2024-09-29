@@ -4,7 +4,7 @@ def import_query(table_name: str) -> str:
         return f.read()
     
 schema_name = 'olist'
-table_name = 'pagamento_pedido'
+table_name = dbutils.widgets.get('table_name')
 
 query = import_query(table_name)
 
