@@ -12,7 +12,7 @@ schema_name = 'olist'
 catalog = 'silver'
 
 table_name = dbutils.widgets.get('table_name')
-idfield = dbutils.widgets.get("id_field")
+id_field = dbutils.widgets.get("id_field")
 idfield_old = dbutils.widgets.get("id_field_from")
 
 # table_name = 'pagamento_pedido'
