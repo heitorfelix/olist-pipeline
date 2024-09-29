@@ -1,9 +1,7 @@
 import os
-import dotenv
 import requests
 import json
 
-dotenv.load_dotenv(".env")
 
 DATABRICKS_HOST = os.getenv("DATABRICKS_HOST")
 DATABRICKS_TOKEN = os.getenv("DATABRICKS_TOKEN")
