@@ -1,0 +1,71 @@
+{
+  "fields": [
+    {
+      "metadata": {},
+      "name": "product_id",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "product_category_name",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "product_name_lenght",
+      "nullable": true,
+      "type": "double"
+    },
+    {
+      "metadata": {},
+      "name": "product_description_lenght",
+      "nullable": true,
+      "type": "double"
+    },
+    {
+      "metadata": {},
+      "name": "product_photos_qty",
+      "nullable": true,
+      "type": "double"
+    },
+        {
+      "metadata": {},
+      "name": "product_weight_g",
+      "nullable": true,
+      "type": "double"
+    },
+    {
+      "metadata": {},
+      "name": "product_length_cm",
+      "nullable": true,
+      "type": "double"
+    },
+        {
+      "metadata": {},
+      "name": "product_height_cm",
+      "nullable": true,
+      "type": "double"
+    },
+    {
+      "metadata": {},
+      "name": "product_width_cm",
+      "nullable": true,
+      "type": "double"
+    },
+    {
+      "metadata": {},
+      "name": "Op",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "modified_at",
+      "nullable": true,
+      "type": "timestamp_ntz"
+    }
+  ],
+  "type": "struct"
+}
