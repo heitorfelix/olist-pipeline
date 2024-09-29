@@ -8,4 +8,4 @@ SELECT
   product_length_cm                    AS comprimentoProduto,
   product_height_cm                    AS alturaProduto,
   product_width_cm                     AS larguraProduto
-FROM bronze.olist.products;
+FROM bronze.olist.products
