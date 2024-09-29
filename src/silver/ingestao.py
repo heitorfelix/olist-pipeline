@@ -13,7 +13,7 @@ catalog = 'silver'
 
 table_name = dbutils.widgets.get('table_name')
 id_field = dbutils.widgets.get("id_field")
-idfield_old = dbutils.widgets.get("id_field_from")
+id_field_from = dbutils.widgets.get("id_field_from")
 
 # table_name = 'pagamento_pedido'
 # id_field = 'idPedido' 
