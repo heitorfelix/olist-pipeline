@@ -1,9 +1,6 @@
 {
     "job_id": 1075672819044885,
-    "creator_user_name": "heitor.felix@sapiensia.com",
-    "run_as_user_name": "heitor.felix@sapiensia.com",
-    "run_as_owner": true,
-    "settings": {
+    "new_settings": {
       "name": "Olist",
       "email_notifications": {
         "no_alert_for_skipped_runs": false
