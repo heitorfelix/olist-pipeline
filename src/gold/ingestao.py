@@ -17,7 +17,6 @@ from ingestors import IngestorCubo
 # COMMAND ----------
 
 today = (spark.sql("SELECT MAX(dtCompra) as max_dtCompra FROM silver.olist.pedidos").collect()[0]['max_dtCompra'])
-
 catalog = "gold"
 schema_name = 'olist'
 
@@ -44,12 +43,3 @@ ingestor = IngestorCubo(spark=spark,
                                   table_name=table_name)
 
 ingestor.backfill(start, stop)
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM gold.olist.daily_reports
-
-# COMMAND ----------
-
-
