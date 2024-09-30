@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import random
 import numpy as np
+import shutil
 
 from datetime import timedelta
 import uuid
@@ -263,7 +264,7 @@ def split_cdc_data_into_parquets(new_orders, new_order_items, new_order_payments
             payments.to_parquet(os.path.join('./data/cdc/order_payments', filename))
     print('Loaded CDC parquet files')
 
-import shutil
+
 
 if os.path.exists("data/cdc"):
     shutil.rmtree("data/cdc")
