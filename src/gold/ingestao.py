@@ -17,21 +17,18 @@ from ingestors import IngestorCubo
 # COMMAND ----------
 
 today = (spark.sql("SELECT MAX(dtCompra) as max_dtCompra FROM silver.olist.pedidos").collect()[0]['max_dtCompra'])
-
 catalog = "gold"
 schema_name = 'olist'
 
-try:
-    table_name = dbutils.widgets.get("table_name")
-except:
-    table_name = 'daily_report'
 
 try:
+    table_name = dbutils.widgets.get("table_name")
     start = dbutils.widgets.get("dt_start") # now
     stop = dbutils.widgets.get("dt_stop") # now
 except:
     start = '2018-06-01'
     stop =  '2018-12-01'
+    table_name = 'daily_reports'
 
 if start == today.strftime('%Y-%m-%d'):
     start = (today - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
