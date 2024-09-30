@@ -24,7 +24,7 @@ schema_name = 'olist'
 try:
     table_name = dbutils.widgets.get("table_name")
 except:
-    table_name = 'daily_reports'
+    table_name = 'daily_report'
 
 try:
     start = dbutils.widgets.get("dt_start") # now
@@ -46,12 +46,3 @@ ingestor = IngestorCubo(spark=spark,
                                   table_name=table_name)
 
 ingestor.backfill(start, stop)
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM gold.olist.daily_reports
-
-# COMMAND ----------
-
-
