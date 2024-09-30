@@ -263,8 +263,8 @@
               "notebook_path": "src/gold/ingestao",
               "base_parameters": {
                 "table_name": "daily_report",
-                "dt_start": "{{job.start_time.iso_date}}",
-                "dt_stop": "{{job.start_time.iso_date}}" 
+                "dt_start": "2018-06-01",
+                "dt_stop": "2018-12-01" 
               },
               "source": "GIT"
             },
@@ -290,8 +290,8 @@
               "notebook_path": "src/gold/ingestao",
               "base_parameters": {
                 "table_name": "monthly_report",
-                "dt_start": "{{job.start_time.iso_date}}",
-                "dt_stop": "{{job.start_time.iso_date}}" 
+                "dt_start": "2018-01-01",
+                "dt_stop": "2018-12-01" 
               },
               "source": "GIT"
             },
@@ -314,8 +314,8 @@
               "notebook_path": "src/gold/ingestao",
               "base_parameters": {
                 "table_name": "churn_report",
-                "dt_start": "{{job.start_time.iso_date}}",
-                "dt_stop": "{{job.start_time.iso_date}}" 
+                "dt_start": "2018-06-01",
+                "dt_stop": "2018-12-01" 
               },
               "source": "GIT"
             },
