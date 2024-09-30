@@ -1,6 +1,6 @@
 import delta
-from utils import import_schema, create_merge_condition, import_query, extract_from, format_query_cdf
-
+from utils import import_schema, create_merge_condition, import_query, extract_from, format_query_cdf, date_range, table_exists
+import tqdm
 
 class Ingestor:
 
@@ -148,4 +148,39 @@ class IngestorCDF(IngestorCDC):
     def execute(self):
         df = self.load()
         return self.save(df)
+    
+
+
+class IngestorCubo:
+
+    def __init__(self, spark, catalog, schema_name, table_name):
+        self.spark = spark
+        self.catalog = catalog
+        self.schema_name = schema_name
+        self.table_name = table_name
+        self.table = f'{catalog}.{schema_name}.{table_name}'
+        self.set_query()
+
+    def set_query(self):
+        self.query = import_query(self.table_name)
+
+    def load(self, **kwargs):
+        df = self.spark.sql(self.query.format(**kwargs))
+        return df
+
+    def save(self, df, dt_ref):
+        self.spark.sql(f"DELETE FROM {self.table} WHERE dtRef = '{dt_ref}'")
+
+    def backfill(self, dt_start, dt_stop):
+        dates = date_range(dt_start, dt_stop)
+
+        if not table_exists(self.spark, self.catalog, self.schema_name, self.table_name):
+            df = self.load(dt_ref = dates.pop(0))
+            df.write.saveAsTable(self.table)
+
+            for dt in tqdm(dates):
+                df = self.load(dt_ref=dt)
+                self.save(df=df, dt_ref=dt)
+
+
     
