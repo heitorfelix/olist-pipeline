@@ -18,17 +18,18 @@ from ingestors import Ingestor, IngestorCDC
 schema_name = 'olist'
 catalog = 'bronze'
 
-table_name = dbutils.widgets.get('table_name')
-id_column =  dbutils.widgets.get('id_column')
-timestamp_column =  dbutils.widgets.get('timestamp_column')
-
-# table_name = 'products'
-# id_column = 'product_id'
-# timestamp_column = 'modified_at'
+try:
+    table_name = dbutils.widgets.get('table_name')
+    id_column =  dbutils.widgets.get('id_column')
+    timestamp_column =  dbutils.widgets.get('timestamp_column')
+except:
+    table_name = 'orders'
+    id_column = 'order_id'
+    timestamp_column = 'modified_at'
 
 cdc_path = f"/Volumes/raw/{schema_name}/cdc/{table_name}/"
 full_load_path = f"/Volumes/raw/{schema_name}/full/{table_name}/"
-checkpoint_location = f"/Volumes/raw/{schema_name}/checkpoint/{table_name}/"
+checkpoint_location = f"/Volumes/raw/{schema_name}/cdc/{table_name}_checkpoint/"
 schema = import_schema(table_name=table_name)
 
 
@@ -62,5 +63,5 @@ ingestor = IngestorCDC(spark
                         , data_format = 'parquet'
                         , id_field = id_column
                         , timestamp_field = timestamp_column) 
-
+                        
 ingestor.execute(cdc_path)
