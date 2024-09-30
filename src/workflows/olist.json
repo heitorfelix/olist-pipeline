@@ -262,7 +262,7 @@
             "notebook_task": {
               "notebook_path": "src/gold/ingestao",
               "base_parameters": {
-                "table_name": "monthly_report",
+                "table_name": "daily_report",
                 "dt_start": "{{job.start_time.iso_date}}",
                 "dt_stop": "{{job.start_time.iso_date}}" 
               },
