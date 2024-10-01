@@ -178,7 +178,7 @@ class IngestorCubo:
             df = self.load(dt_ref = dates.pop(0))
             df.write.saveAsTable(self.table)
 
-            for dt in tqdm(dates):
+            for dt in tqdm.tqdm(dates):
                 df = self.load(dt_ref=dt)
                 self.save(df=df, dt_ref=dt)
 
