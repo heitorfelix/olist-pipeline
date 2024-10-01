@@ -6,7 +6,7 @@ Este projeto tem como objetivo praticar os conceitos da arquitetura de Data Lake
 
 Neste projeto consegui aprender tudo que envolve a arquitetura Lakehouse no Databricks. Usando `Unity Catalog`, Streaming em batch com `Cloudfiles`, integração com `GitHub` e `GitHub Actions` e orquestração de jobs com o Databricks `Workflows`.
 
-<img src="assets/project.png" alt="project" width="60%">
+![alt text](/assets/project.png)
 
 ## 2. Os dados 
 
