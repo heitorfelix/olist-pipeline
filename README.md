@@ -65,7 +65,6 @@ A ingestão incremental na Gold é feita para atualizar relatórios, dashboards 
 
 Utilizamos o método backfill para atualizar as tabelas gold com novos dados em um intervalo definido de datas, normalmente a data do dia anterior. 
 
-
 ## 5 Como implementar novas tabelas em cada camada
 
 ### 5.1 Bronze
@@ -82,7 +81,6 @@ Utilizamos o método backfill para atualizar as tabelas gold com novos dados em 
     * Nome da task
     * Parâmetros
     * Task da bronze que depende
-
 
 ### 5.3 Gold
 
